@@ -28,6 +28,7 @@ import { useChat } from "ai/react";
 
 const MotionBox = chakra(motion.div);
 
+// This is the type for the messages in the chat
 interface Message {
   id: string;
   text: string;
@@ -35,6 +36,7 @@ interface Message {
   timestamp: Date;
 }
 
+// This is the welcome message that the chatbot will send to the user
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   text: "Feel free to ask me anything about DeviceCare!",
@@ -43,28 +45,35 @@ const WELCOME_MESSAGE: Message = {
 };
 
 export function ChatWidget() {
+  // This is the useChat hook that handles the chat API request to the OpenAI API and returns a streaming response to chat-widget.tsx
   const {
     input,
     handleInputChange,
     handleSubmit: handleAISubmit,
     isLoading: aiLoading,
     messages: aiMessages,
-    reload,
     setMessages: setAIMessages,
   } = useChat();
+  // This is the state that handles the messages in the chat
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  // This is the state that handles the minimized state of the chat widget
   const [isMinimized, setIsMinimized] = useState(true);
+  // This is the ref that handles the messages end
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  // This is the state that handles the closing state of the chat widget
   const [isClosing, setIsClosing] = useState(false);
 
+  // This is the function that scrolls to the bottom of the chat
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // This is the useEffect hook that scrolls to the bottom of the chat when the messages state changes
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // This is the useEffect hook that handles the AI messages and updates the messages state
   useEffect(() => {
     if (aiMessages.length > 0) {
       const newMessages = aiMessages.map((msg) => ({
@@ -77,6 +86,7 @@ export function ChatWidget() {
     }
   }, [aiMessages]);
 
+  // This is the function that handles the sending of messages
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || aiLoading) return;
@@ -91,6 +101,7 @@ export function ChatWidget() {
     });
   };
 
+  // This is the function that handles the closing of the chat widget
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -101,10 +112,12 @@ export function ChatWidget() {
     }, 200);
   };
 
+  // This is the function that handles the minimizing of the chat widget
   const handleMinimize = () => {
     setIsMinimized(true);
   };
 
+  // This is the return statement that renders the chat widget
   return (
     <Box position="fixed" bottom="12px" right="12px" zIndex={50}>
       <Button
@@ -130,6 +143,7 @@ export function ChatWidget() {
         />
       </Button>
 
+      {/* This is the AnimatePresence component that handles the animation of the chat widget */}
       <AnimatePresence>
         {!isMinimized && (
           <MotionBox
@@ -171,12 +185,14 @@ export function ChatWidget() {
                   </Text>
                 </HStack>
                 <Stack direction="row" gap={4} position="relative">
+                  {/* This is the Minus icon that handles the minimizing of the chat widget */}
                   <Minus
                     aria-label="Minimize chat"
                     size={18}
                     onClick={handleMinimize}
                     style={{ cursor: "pointer" }}
                   />
+                  {/* This is the DialogRoot component that handles the dialog and the closing of the chat widget*/}
                   <DialogRoot>
                     <DialogTrigger asChild>
                       <X
@@ -222,12 +238,14 @@ export function ChatWidget() {
                 </Stack>
               </Stack>
 
+              {/* This is the VStack component that handles the messages in the chat */}
               <VStack
                 flex={1}
                 overflowY="auto"
                 gap={4}
                 p={4}
                 alignItems="stretch"
+                // This is the CSS that handles the scrollbar of the chat
                 css={{
                   "&::-webkit-scrollbar": {
                     width: "8px",
@@ -257,6 +275,7 @@ export function ChatWidget() {
                   },
                 }}
               >
+                {/* This is the map function that renders the messages in the chat */}
                 {messages.map((message) => (
                   <Box
                     key={message.id}
@@ -291,6 +310,7 @@ export function ChatWidget() {
                 as="form"
                 onSubmit={handleSend}
               >
+                {/* This is the Input component that handles the input of the chat */}
                 <Input
                   value={input}
                   onChange={handleInputChange}
@@ -302,6 +322,7 @@ export function ChatWidget() {
                   disabled={aiLoading}
                   size="md"
                 />
+                {/* This is the Button component that handles the sending of messages */}
                 <Button
                   type="submit"
                   bg="#8223d2"

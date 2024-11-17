@@ -36,7 +36,25 @@ yarn dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## FAQ Integration
+## Project Structure
+
+The application primarily consists of three main components:
+
+### `src/components/ui/chat-widget.tsx`
+
+- Main chat interface component
+- Handles message display and user interactions
+- Manages chat state and message history
+- Implements typing indicators and message formatting
+
+### `src/app/page.tsx`
+
+- Root page component
+- Integrates the chat widget
+- Handles layout and styling
+- Sets up initial configuration
+
+### FAQ Integration
 
 The chatbot is trained on a custom FAQ dataset using the following approach:
 
@@ -45,12 +63,10 @@ The chatbot is trained on a custom FAQ dataset using the following approach:
 3. Each query is analyzed against the FAQ knowledge base before generating a response
 4. The model uses this context to provide accurate, company-specific answers
 
-### Customizing the FAQ
+#### Customizing the FAQ
 
 To use your own FAQ:
 
 1. Prepare your FAQ document in a clear Q&A format
 2. Update the context in the chat API route
 3. Adjust the system prompt if needed for your specific use case
-
-## Project Structure

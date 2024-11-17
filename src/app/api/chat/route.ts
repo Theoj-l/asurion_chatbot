@@ -5,6 +5,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 
+// This is the context that the chatbot will use to answer questions
 const deviceCareContext = 
 `What is DeviceCare? - DeviceCare is a comprehensive device management solution designed to help users monitor, protect, and optimize their electronic devices, ensuring they run smoothly and efficiently.
 How do I install DeviceCare on my device? - To install DeviceCare, download the installer from our official website, run the setup file, and follow the on-screen instructions. DeviceCare is compatible with Windows, macOS, and major mobile operating systems.
@@ -15,8 +16,9 @@ Can DeviceCare protect my device from malware and viruses? - Yes, DeviceCare inc
 How can I contact DeviceCare support if I need help? - You can contact DeviceCare support through our in-app support chat, by emailing support@devicecare.com, or by calling our customer service hotline. Support is available 24/7.
 Does DeviceCare offer a free trial? - Yes, DeviceCare offers a 14-day free trial with access to all premium features. You can sign up for the free trial on our website or through the DeviceCare app.
 How do I update DeviceCare to the latest version? - DeviceCare automatically checks for updates and notifies you when a new version is available. You can also manually check for updates by going to the 'Settings' tab and selecting 'Check for Updates'.
-Can I use DeviceCare on multiple devices with one subscription? - Yes, a single DeviceCare subscription allows you to manage and protect multiple devices. You can add devices to your account through the DeviceCare app or the web portal.`;
+Can I use DeviceCare on multiple devices with one subscription? - Yes, a single DeviceCare subscription allows you to manage and protect multiple devices. You can add devices to your account through the DeviceCare app or the web portal.`; // This is where the FAQ context ends
 
+// This is the function that handles the chat API request to the OpenAI API and returns a streaming response to chat-widget.tsx
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
@@ -43,6 +45,7 @@ export async function POST(req: Request) {
     ...messages
   ];
 
+  // This is the OpenAI API call that handles the chat completion
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     stream: true,

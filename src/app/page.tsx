@@ -7,12 +7,14 @@ import { ColorModeButton } from "@/components/ui/color-mode";
 export default function Home() {
   return (
     <main style={{ overflow: "hidden" }}>
+      {/* To have dark mode */}
       <Box position="fixed" top={1} right={1} zIndex={50}>
         <ColorModeButton />
       </Box>
       <Container maxW="4xl" py={8}>
         <VStack gap={8} align="stretch">
           <Heading>Welcome to Our Service</Heading>
+          {/* To fill up the page with some content */}
           {[...Array(20)].map((_, i) => (
             <Box
               key={i}
@@ -32,6 +34,7 @@ export default function Home() {
           ))}
         </VStack>
       </Container>
+      {/* To open the chat widget */}
       <ChatWidget />
     </main>
   );
